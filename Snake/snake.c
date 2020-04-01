@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <ncurses.h>
 #include "print_snake.h"
 #include "move_snake.h"
 #include "lista_dupla_snake.h"
