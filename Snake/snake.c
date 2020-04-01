@@ -1,9 +1,15 @@
-#include "lib_snake.h"
+#include <stdio.h>
+#include "print_snake.h"
+#include "move_snake.h"
+#include "lista_dupla_snake.h"
+#include "collision_snake.h"
+#include "config_snake.h"
 
 int main()
 {
     srand(time(NULL));
 
+    int max_x, max_y;
     int tecla;
     int k, w;
 
@@ -34,8 +40,28 @@ int main()
     init_pair(3, COLOR_BLACK, COLOR_BLACK);
     wbkgd(stdscr, COLOR_PAIR(3));
 
+    getmaxyx(stdscr, max_y, max_x);
+    if ((max_x <= MAX_X) || (max_y <= MAX_Y))
+    {
+        destroi_lista(&snake);
+        endwin();
+        printf("Tela do terminal precisa ser de pelo menos 39 linhas e 101 colunas\n");
+        printf("Valores atuais: %i linhas, %i colunas\n", max_y, max_x);
+        return 1;
+    }
+
     while (1)
     {
+        getmaxyx(stdscr, max_y, max_x);
+        if ((max_x <= MAX_X) || (max_y <= MAX_Y))
+        {
+            destroi_lista(&snake);
+            endwin();
+            printf("Tela do terminal precisa ser de pelo menos 39 linhas e 101 colunas\n");
+            printf("Valores atuais: %i linhas, %i colunas\n", max_y, max_x);
+            return 1;
+        }
+        
         werase(stdscr);
 
         /* Impressão dos elementos do jogo */
