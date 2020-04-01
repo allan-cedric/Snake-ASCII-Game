@@ -1,2 +1,2 @@
 # _games_
-Aqui serão colocados alguns jogos clássicos que implementei
+ Alguns jogos clássicos que implementei
