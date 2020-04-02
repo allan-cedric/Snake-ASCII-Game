@@ -17,6 +17,5 @@ void sorteia_comida(t_lista *snake, t_comida *comida)
     {
         comida->i = (rand() % 35) + 2;
         comida->j = (rand() % 96) + 2;
-        comida->estado = 1;
     } while (pertence_lista(comida->i, comida->j, snake));
 }
