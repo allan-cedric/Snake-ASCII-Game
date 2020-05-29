@@ -73,6 +73,7 @@ void imprime_cenario(WINDOW *t)
 {
     static int estado = 0;
     werase(t);
+    // Chão
     for (int j = 0; j < COLUNAS(x); j++)
     {
         wattron(t, COLOR_PAIR(2 + estado));
@@ -80,6 +81,7 @@ void imprime_cenario(WINDOW *t)
         wattroff(t, COLOR_PAIR(2 + estado));
         estado = !estado;
     }
+    // Solo
     for (int i = LINHAS(y) - 8; i < LINHAS(y); i++)
     {
         for (int j = 0; j < COLUNAS(x); j++)
