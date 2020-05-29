@@ -15,18 +15,12 @@
 #define X0(x) (x / 3 - 10)
 #define Y0 1
 
-// -- Função de setup dos recursos da ncurses --
-void inicia_ncurses()
-{
-    initscr();
-    cbreak();
-    noecho();
-    curs_set(0);
-    start_color();
-}
+// -- Protótipos das funções --
+void inicia_ncurses();
+void imprime_cenario(WINDOW *t);
 
 // -- Variáveis globais --
-int estado = 0, tempo = 0;
+int tempo = 0;
 int x, y;
 
 // -- Programa principal --
@@ -53,26 +47,7 @@ int main()
     {
         // -- Impressão do cenário (Sem os canos) --
         if (!(tempo % cenario.gettempoMovimentacao()))
-        {
-            werase(tela_jogo);
-            for (int j = 0; j < COLUNAS(x); j++)
-            {
-                wattron(tela_jogo, COLOR_PAIR(2 + estado));
-                mvwaddch(tela_jogo, LINHAS(y) - 9, j, '/');
-                wattroff(tela_jogo, COLOR_PAIR(2 + estado));
-                estado = !estado;
-            }
-            for (int i = LINHAS(y) - 8; i < LINHAS(y); i++)
-            {
-                for (int j = 0; j < COLUNAS(x); j++)
-                {
-                    wattron(tela_jogo, COLOR_PAIR(4));
-                    mvwaddch(tela_jogo, i, j, '.');
-                    wattroff(tela_jogo, COLOR_PAIR(4));
-                }
-            }
-            estado = !estado;
-        }
+            imprime_cenario(tela_jogo);
 
         // -- Manipulação do tempo do jogo --
         tempo++;
@@ -81,4 +56,38 @@ int main()
     }
 
     return 0;
+}
+
+// -- Função de setup dos recursos da ncurses --
+void inicia_ncurses()
+{
+    initscr();
+    cbreak();
+    noecho();
+    curs_set(0);
+    start_color();
+}
+
+// -- Função que imprime o cenário do jogo (Sem pipes) --
+void imprime_cenario(WINDOW *t)
+{
+    static int estado = 0;
+    werase(t);
+    for (int j = 0; j < COLUNAS(x); j++)
+    {
+        wattron(t, COLOR_PAIR(2 + estado));
+        mvwaddch(t, LINHAS(y) - 9, j, '/');
+        wattroff(t, COLOR_PAIR(2 + estado));
+        estado = !estado;
+    }
+    for (int i = LINHAS(y) - 8; i < LINHAS(y); i++)
+    {
+        for (int j = 0; j < COLUNAS(x); j++)
+        {
+            wattron(t, COLOR_PAIR(4));
+            mvwaddch(t, i, j, '.');
+            wattroff(t, COLOR_PAIR(4));
+        }
+    }
+    estado = !estado;
 }
