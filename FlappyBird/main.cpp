@@ -57,18 +57,9 @@ int main()
             werase(tela_jogo);
             for (int j = 0; j < COLUNAS(x); j++)
             {
-                if (!estado)
-                {
-                    wattron(tela_jogo, COLOR_PAIR(2));
-                    mvwaddch(tela_jogo, LINHAS(y) - 9, j, '/');
-                    wattroff(tela_jogo, COLOR_PAIR(2));
-                }
-                else
-                {
-                    wattron(tela_jogo, COLOR_PAIR(3));
-                    mvwaddch(tela_jogo, LINHAS(y) - 9, j, '/');
-                    wattroff(tela_jogo, COLOR_PAIR(3));
-                }
+                wattron(tela_jogo, COLOR_PAIR(2 + estado));
+                mvwaddch(tela_jogo, LINHAS(y) - 9, j, '/');
+                wattroff(tela_jogo, COLOR_PAIR(2 + estado));
                 estado = !estado;
             }
             for (int i = LINHAS(y) - 8; i < LINHAS(y); i++)
@@ -80,10 +71,7 @@ int main()
                     wattroff(tela_jogo, COLOR_PAIR(4));
                 }
             }
-            if (estado)
-                estado = 0;
-            else
-                estado = 1;
+            estado = !estado;
         }
 
         // -- Manipulação do tempo do jogo --
