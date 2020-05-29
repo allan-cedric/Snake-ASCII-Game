@@ -9,12 +9,13 @@
 // -- Construtor --
 Passaro::Passaro()
 {
-    _x = 15;
+    _x = 30;
     _y = 15;
     _corCorpo = 9;
     _corOlho = COLOR_WHITE;
     _corBico = COLOR_RED;
-    _corpo = "{v 0}=";
+    _olho = '0';
+    _asa = 'V';
 }
 
 void Passaro::mover(WINDOW *t)
@@ -48,7 +49,12 @@ int Passaro::getcorBico()
     return _corBico;
 }
 
-string Passaro::getCorpo()
+char Passaro::getOlho()
 {
-    return _corpo;
+    return _olho;
+}
+
+char Passaro::getAsa()
+{
+    return _asa;
 }

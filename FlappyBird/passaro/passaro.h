@@ -22,7 +22,8 @@ private:
     int _corCorpo;
     int _corOlho;
     int _corBico;
-    string _corpo;
+    char _olho;
+    char _asa;
 public:
     Passaro(); // Construtor
     void mover(WINDOW *t);
@@ -31,5 +32,6 @@ public:
     int getcorCorpo();
     int getcorOlho();
     int getcorBico();
-    string getCorpo();
+    char getOlho();
+    char getAsa();
 };

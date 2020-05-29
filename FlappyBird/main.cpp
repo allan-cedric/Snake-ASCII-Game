@@ -37,20 +37,20 @@ int main()
     Cenario cenario;
     init_pair(1, cenario.getcorFundo(), cenario.getcorFundo());
     wbkgd(tela_jogo, COLOR_PAIR(1));
-
     init_color(COLOR_WHITE, 999, 999, 999);
     init_color(COLOR_BLACK, 0, 0, 0);
     init_pair(2, COLOR_WHITE, cenario.getcorChao());
     init_pair(3, cenario.getcorChao(), cenario.getcorChao());
-
     init_color(cenario.getcorSolo(), 999, 800, 400);
     init_pair(4, cenario.getcorSolo(), cenario.getcorSolo());
 
+    // -- Setup do pássaro --
     Passaro passaro;
     init_color(passaro.getcorCorpo(), 999, 999, 0);
     init_pair(5, COLOR_BLACK, passaro.getcorCorpo());
-    init_pair(6, COLOR_BLACK, passaro.getcorOlho());
-    init_pair(7, passaro.getcorBico(), COLOR_CYAN);
+    init_pair(6, passaro.getcorCorpo(), passaro.getcorCorpo());
+    init_pair(7, COLOR_BLACK, passaro.getcorOlho());
+    init_pair(8, passaro.getcorBico(), passaro.getcorBico());
 
     // -- Jogo --
     while (1)
@@ -106,26 +106,49 @@ void imprime_cenario(WINDOW *t)
     estado = !estado;
 }
 
+// -- Função que imprime o pássaro --
 void imprime_passaro(WINDOW *t, Passaro p)
 {
-    for (int i = 0; i < p.getCorpo().length(); i++)
+    for (int i = p.getY(); i <= p.getY() + 1; i++)
     {
-        switch (p.getCorpo()[i])
+        for (int j = p.getX(); j <= p.getX() + 4; j++)
         {
-        case '0':
-            wattron(t, COLOR_PAIR(6));
-            mvwaddch(t, p.getY(), p.getX() + i, p.getCorpo()[i]);
-            wattroff(t, COLOR_PAIR(6));
-            break;
-        case '=':
-            wattron(t, COLOR_PAIR(7));
-            mvwaddch(t, p.getY(), p.getX() + i, p.getCorpo()[i]);
-            wattroff(t, COLOR_PAIR(7));
-            break;
-        default:
-            wattron(t, COLOR_PAIR(5));
-            mvwaddch(t, p.getY(), p.getX() + i, p.getCorpo()[i]);
-            wattroff(t, COLOR_PAIR(5));
+            if (i == p.getY() && j == p.getX() + 3)
+            {
+                wattron(t, COLOR_PAIR(7));
+                mvwaddch(t, i, j, p.getOlho());
+                wattroff(t, COLOR_PAIR(7));
+            }
+            else if (i == p.getY() && j == p.getX() + 2)
+            {
+                wattron(t, COLOR_PAIR(5));
+                mvwaddch(t, i, j, '(');
+                wattroff(t, COLOR_PAIR(5));
+            }
+            else if (i == p.getY() + 1 && j == p.getX() + 1)
+            {
+                wattron(t, COLOR_PAIR(5));
+                mvwaddch(t, i, j, p.getAsa());
+                wattroff(t, COLOR_PAIR(5));
+            }
+            else if (i == p.getY() + 1 && (j == p.getX() + 3 || j == p.getX() + 4))
+            {
+                wattron(t, COLOR_PAIR(8));
+                mvwaddch(t, i, j, '.');
+                wattroff(t, COLOR_PAIR(8));
+            }
+            else if (i == p.getY() && (j == p.getX() || j == p.getX() + 4))
+            {
+                wattron(t, COLOR_PAIR(1));
+                mvwaddch(t, i, j, '.');
+                wattroff(t, COLOR_PAIR(1));
+            }
+            else
+            {
+                wattron(t, COLOR_PAIR(6));
+                mvwaddch(t, i, j, '.');
+                wattroff(t, COLOR_PAIR(6));
+            }
         }
     }
 }
