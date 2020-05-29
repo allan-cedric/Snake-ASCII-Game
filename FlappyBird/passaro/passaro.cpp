@@ -16,12 +16,13 @@ Passaro::Passaro()
     _corBico = COLOR_RED;
     _olho = '0';
     _asa = 'V';
+    _pulo = -6;
 }
 
 void Passaro::mover(WINDOW *t)
 {
     char ch = wgetch(t);
-    _y += (ch == ' ' ? -1 : GRAVIDADE);
+    _y += (ch == ' ' ? _pulo : GRAVIDADE);
 }
 
 int Passaro::getX()

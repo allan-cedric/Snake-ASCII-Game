@@ -24,6 +24,7 @@ private:
     int _corBico;
     char _olho;
     char _asa;
+    int _pulo;
 public:
     Passaro(); // Construtor
     void mover(WINDOW *t);

@@ -32,6 +32,7 @@ int main()
     inicia_ncurses();
     getmaxyx(stdscr, y, x);
     WINDOW *tela_jogo = newwin(LINHAS(y), COLUNAS(x), Y0, X0(x));
+    nodelay(tela_jogo, 1);
 
     // -- Setup do cenário --
     Cenario cenario;
@@ -55,16 +56,18 @@ int main()
     // -- Jogo --
     while (1)
     {
+        wclear(tela_jogo);
         // -- Impressão do cenário (Sem os canos) --
-        if (!(tempo % cenario.gettempoMovimentacao()))
-            imprime_cenario(tela_jogo);
+        imprime_cenario(tela_jogo);
 
+        // -- Impressão e movimentação do pássaro --
         imprime_passaro(tela_jogo, passaro);
+        passaro.mover(tela_jogo);
 
         // -- Manipulação do tempo do jogo --
         tempo++;
         wrefresh(tela_jogo);
-        usleep(10000);
+        usleep(50000);
     }
 
     return 0;
@@ -84,7 +87,6 @@ void inicia_ncurses()
 void imprime_cenario(WINDOW *t)
 {
     static int estado = 0;
-    werase(t);
     // Chão
     for (int j = 0; j < COLUNAS(x); j++)
     {

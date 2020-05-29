@@ -17,12 +17,10 @@ private:
     int _corFundo;
     int _corSolo;
     int _corChao;
-    int _tempoMovimentacao;
 
 public:
     Cenario(); // Construtor
     int getcorFundo();
     int getcorSolo();
     int getcorChao();
-    int gettempoMovimentacao();
 };

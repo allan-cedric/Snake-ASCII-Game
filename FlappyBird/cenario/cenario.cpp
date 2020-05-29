@@ -12,7 +12,6 @@ Cenario::Cenario()
     _corFundo = COLOR_CYAN;
     _corSolo = COLOR_YELLOW;
     _corChao = COLOR_GREEN;
-    _tempoMovimentacao = 4;
 }
 
 int Cenario::getcorFundo()
@@ -28,9 +27,4 @@ int Cenario::getcorSolo()
 int Cenario::getcorChao()
 {
     return _corChao;
-}
-
-int Cenario::gettempoMovimentacao()
-{
-    return _tempoMovimentacao;
 }
