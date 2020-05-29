@@ -7,6 +7,7 @@
 // -- Bibliotecas --
 #include <unistd.h>
 #include "cenario/cenario.h"
+#include "passaro/passaro.h"
 
 // -- Macros para tela do jogo--
 #define COLUNAS(x) (x / 3 + 20)
@@ -18,6 +19,7 @@
 // -- Protótipos das funções --
 void inicia_ncurses();
 void imprime_cenario(WINDOW *t);
+void imprime_passaro(WINDOW *t, Passaro p);
 
 // -- Variáveis globais --
 int tempo = 0;
@@ -36,11 +38,19 @@ int main()
     init_pair(1, cenario.getcorFundo(), cenario.getcorFundo());
     wbkgd(tela_jogo, COLOR_PAIR(1));
 
+    init_color(COLOR_WHITE, 999, 999, 999);
+    init_color(COLOR_BLACK, 0, 0, 0);
     init_pair(2, COLOR_WHITE, cenario.getcorChao());
     init_pair(3, cenario.getcorChao(), cenario.getcorChao());
 
     init_color(cenario.getcorSolo(), 999, 800, 400);
     init_pair(4, cenario.getcorSolo(), cenario.getcorSolo());
+
+    Passaro passaro;
+    init_color(passaro.getcorCorpo(), 999, 999, 0);
+    init_pair(5, COLOR_BLACK, passaro.getcorCorpo());
+    init_pair(6, COLOR_BLACK, passaro.getcorOlho());
+    init_pair(7, passaro.getcorBico(), COLOR_CYAN);
 
     // -- Jogo --
     while (1)
@@ -48,6 +58,8 @@ int main()
         // -- Impressão do cenário (Sem os canos) --
         if (!(tempo % cenario.gettempoMovimentacao()))
             imprime_cenario(tela_jogo);
+
+        imprime_passaro(tela_jogo, passaro);
 
         // -- Manipulação do tempo do jogo --
         tempo++;
@@ -92,4 +104,28 @@ void imprime_cenario(WINDOW *t)
         }
     }
     estado = !estado;
+}
+
+void imprime_passaro(WINDOW *t, Passaro p)
+{
+    for (int i = 0; i < p.getCorpo().length(); i++)
+    {
+        switch (p.getCorpo()[i])
+        {
+        case '0':
+            wattron(t, COLOR_PAIR(6));
+            mvwaddch(t, p.getY(), p.getX() + i, p.getCorpo()[i]);
+            wattroff(t, COLOR_PAIR(6));
+            break;
+        case '=':
+            wattron(t, COLOR_PAIR(7));
+            mvwaddch(t, p.getY(), p.getX() + i, p.getCorpo()[i]);
+            wattroff(t, COLOR_PAIR(7));
+            break;
+        default:
+            wattron(t, COLOR_PAIR(5));
+            mvwaddch(t, p.getY(), p.getX() + i, p.getCorpo()[i]);
+            wattroff(t, COLOR_PAIR(5));
+        }
+    }
 }
