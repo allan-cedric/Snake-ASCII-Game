@@ -1,8 +1,12 @@
 // -- Implementação da classe do cano do jogo (Flappy Bird) --
 // -- Autor: Allan Cedric --
 
+#pragma GCC optimize("O3")
+#pragma GCC target("avx,avx2,sse4")
+
 #include "canos.h"
 
+// -- Construtor --
 Cano::Cano()
 {
     _y = 0;
