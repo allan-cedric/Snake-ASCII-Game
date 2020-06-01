@@ -21,9 +21,10 @@
 void inicia_ncurses();
 void imprime_cenario(WINDOW *t);
 void imprime_passaro(WINDOW *t, Passaro p);
-void imprime_canos(WINDOW *t, Canos c);
+void imprime_cano(WINDOW *t, Cano c);
 
 // -- Variáveis globais --
+int tempo_cano2 = 0;
 int tempo = 0;
 int x, y;
 
@@ -56,16 +57,34 @@ int main()
     init_pair(8, passaro.getcorBico(), passaro.getcorBico());
 
     // -- Setup dos canos --
-    Canos canos;
+    Cano cano1, cano2;
     init_pair(9, COLOR_GREEN, COLOR_GREEN);
+    cano1.gerayPassagem();
+    cano2.gerayPassagem();
 
     // -- Jogo --
     while (1)
     {
         wclear(tela_jogo);
-        // -- Impressão do cenário (Sem os canos) --
+        // -- Impressão do cenário (Com os canos) --
         imprime_cenario(tela_jogo);
-        imprime_canos(tela_jogo, canos);
+        imprime_cano(tela_jogo, cano1);
+        imprime_cano(tela_jogo, cano2);
+        cano1.mover();
+        if (tempo_cano2)
+            cano2.mover();
+        if (cano1.getX() < 30)
+            tempo_cano2 = 1;
+        if (cano1.getX() <= -10)
+        {
+            cano1.resetX();
+            cano1.gerayPassagem();
+        }
+        if (cano2.getX() <= -10)
+        {
+            cano2.resetX();
+            cano2.gerayPassagem();
+        }
 
         // -- Impressão e movimentação do pássaro --
         imprime_passaro(tela_jogo, passaro);
@@ -116,9 +135,26 @@ void imprime_cenario(WINDOW *t)
 }
 
 // -- Função que imprime os canos do jogo --
-void imprime_canos(WINDOW *t, Canos c)
+void imprime_cano(WINDOW *t, Cano c)
 {
-    
+    for (int i = c.getY(); i < CANO_LINHAS + c.getY(); i++)
+    {
+        for (int j = c.getX(); j < CANO_COLUNAS + c.getX(); j++)
+        {
+            if (i < c.getYPassagem() || i > c.getYPassagem() + LINHAS_PASSAGEM)
+            {
+                wattron(t, COLOR_PAIR(9));
+                mvwaddch(t, i, j, '.');
+                wattroff(t, COLOR_PAIR(9));
+            }
+            else
+            {
+                wattron(t, COLOR_PAIR(1));
+                mvwaddch(t, i, j, '.');
+                wattroff(t, COLOR_PAIR(1));
+            }
+        }
+    }
 }
 
 // -- Função que imprime o pássaro --

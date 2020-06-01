@@ -1,4 +1,4 @@
-// -- Implementação classe dos canos do jogo (Flappy Bird) --
+// -- Implementação classe do cano do jogo (Flappy Bird) --
 // -- Autor: Allan Cedric --
 
 #pragma once
@@ -13,19 +13,23 @@ using namespace std;
 
 // -- Macros --
 #define CANO_LINHAS 30
-#define CANO_COLUNAS 5
-#define LINHAS_PASSAGEM 5
+#define CANO_COLUNAS 10
+#define LINHAS_PASSAGEM 8
 
-// -- Classe Canos --
-class Canos
+// -- Classe Cano --
+class Cano
 {
 private:
-    vector<int> _y;
-    vector<int> _x;
-    vector<int> _y_passagem;
-    vector<int> _x_passagem;
+    int _y;
+    int _y_passagem;
+    int _x;
 
 public:
-    Canos(); // Construtor
-    void geraCano();
+    Cano(); // Construtor
+    void mover();
+    int getY();
+    int getX();
+    int getYPassagem();
+    void resetX();
+    void gerayPassagem();
 };
