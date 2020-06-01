@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include "cenario/cenario.h"
 #include "passaro/passaro.h"
+#include "canos/canos.h"
 
 // -- Macros para tela do jogo--
 #define COLUNAS(x) (x / 3 + 20)
@@ -20,6 +21,7 @@
 void inicia_ncurses();
 void imprime_cenario(WINDOW *t);
 void imprime_passaro(WINDOW *t, Passaro p);
+void imprime_canos(WINDOW *t, Canos c);
 
 // -- Variáveis globais --
 int tempo = 0;
@@ -53,12 +55,17 @@ int main()
     init_pair(7, COLOR_BLACK, passaro.getcorOlho());
     init_pair(8, passaro.getcorBico(), passaro.getcorBico());
 
+    // -- Setup dos canos --
+    Canos canos;
+    init_pair(9, COLOR_GREEN, COLOR_GREEN);
+
     // -- Jogo --
     while (1)
     {
         wclear(tela_jogo);
         // -- Impressão do cenário (Sem os canos) --
         imprime_cenario(tela_jogo);
+        imprime_canos(tela_jogo, canos);
 
         // -- Impressão e movimentação do pássaro --
         imprime_passaro(tela_jogo, passaro);
@@ -106,6 +113,12 @@ void imprime_cenario(WINDOW *t)
         }
     }
     estado = !estado;
+}
+
+// -- Função que imprime os canos do jogo --
+void imprime_canos(WINDOW *t, Canos c)
+{
+    
 }
 
 // -- Função que imprime o pássaro --
