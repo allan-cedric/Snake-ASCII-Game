@@ -25,7 +25,6 @@ void imprime_cano(WINDOW *t, Cano c);
 
 // -- Variáveis globais --
 int tempo_cano2 = 0;
-int tempo = 0;
 int x, y;
 
 // -- Programa principal --
@@ -91,7 +90,6 @@ int main()
         passaro.mover(tela_jogo);
 
         // -- Manipulação do tempo do jogo --
-        tempo++;
         wrefresh(tela_jogo);
         usleep(50000);
     }
